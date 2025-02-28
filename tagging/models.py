@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 
 from django.db import connection, models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from tagging.settings import DEFAULT_FORCE_LOWERCASE_TAGS
 from tagging.utils import (

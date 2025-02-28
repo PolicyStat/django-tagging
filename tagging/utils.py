@@ -9,7 +9,7 @@ try:
     from django.utils.encoding import force_unicode
 except ImportError:
     from django.utils.encoding import force_text as force_unicode
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 try:
     basestring

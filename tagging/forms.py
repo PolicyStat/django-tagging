@@ -3,7 +3,7 @@ Tagging components for Django's form library.
 """
 from django import forms
 from django.conf import settings
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from tagging.models import Tag
 from tagging.settings import DEFAULT_MAX_TAG_LENGTH
