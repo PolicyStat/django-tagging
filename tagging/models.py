@@ -143,9 +143,9 @@ class TagManager(models.Manager):
         """
         if filters is None: filters = {}
 
-        queryset = model._default_manager.filter()
-        for f in filters.items():
-            queryset.query.add_filter(f)
+        queryset = model._default_manager.all()
+        if filters:
+            queryset = queryset.filter(**filters)
         usage = self.usage_for_queryset(queryset, counts, min_count)
 
         return usage
