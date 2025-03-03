@@ -141,7 +141,8 @@ class TagManager(models.Manager):
         of field lookups to be applied to the given Model as the
         ``filters`` argument.
         """
-        if filters is None: filters = {}
+        if filters is None:
+            filters = {}
 
         queryset = model._default_manager.all()
         if filters:
