@@ -169,7 +169,14 @@ class TagManager(models.Manager):
             # Django 1.2+
             compiler = queryset.query.get_compiler(using='default')
             if getattr(compiler, 'compile', None):
-                where, params = compiler.compile(queryset.query.where)
+                # Check if queryset has any WHERE conditions
+                if queryset.query.where.children:
+                    where, params = compiler.compile(queryset.query.where)
+                else:
+                    # Empty WHERE clause.
+                    # Do not compile or exception thrown for Django 4.2.
+                    where = ''
+                    params = []
             else:
                 where, params = queryset.query.where.as_sql(
                     compiler.quote_name_unless_alias, compiler.connection
