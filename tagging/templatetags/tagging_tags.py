@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.template import Library, Node, TemplateSyntaxError, Variable
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from tagging.models import Tag, TaggedItem
 from tagging.utils import LINEAR, LOGARITHMIC

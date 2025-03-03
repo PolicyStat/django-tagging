@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 
 from django.db import connection, models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from tagging.settings import DEFAULT_FORCE_LOWERCASE_TAGS
 from tagging.utils import (
@@ -141,11 +141,12 @@ class TagManager(models.Manager):
         of field lookups to be applied to the given Model as the
         ``filters`` argument.
         """
-        if filters is None: filters = {}
+        if filters is None:
+            filters = {}
 
-        queryset = model._default_manager.filter()
-        for f in filters.items():
-            queryset.query.add_filter(f)
+        queryset = model._default_manager.all()
+        if filters:
+            queryset = queryset.filter(**filters)
         usage = self.usage_for_queryset(queryset, counts, min_count)
 
         return usage
@@ -168,7 +169,14 @@ class TagManager(models.Manager):
             # Django 1.2+
             compiler = queryset.query.get_compiler(using='default')
             if getattr(compiler, 'compile', None):
-                where, params = compiler.compile(queryset.query.where)
+                # Check if queryset has any WHERE conditions
+                if queryset.query.where.children:
+                    where, params = compiler.compile(queryset.query.where)
+                else:
+                    # Empty WHERE clause.
+                    # Do not compile or exception thrown for Django 4.2.
+                    where = ''
+                    params = []
             else:
                 where, params = queryset.query.where.as_sql(
                     compiler.quote_name_unless_alias, compiler.connection

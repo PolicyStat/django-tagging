@@ -2,7 +2,7 @@
 Tagging related views.
 """
 from django.http import Http404
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic.list_detail import object_list
 
 from tagging.models import Tag, TaggedItem
